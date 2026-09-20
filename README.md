@@ -14,7 +14,7 @@ A full-stack RAG dashboard with a dark glassmorphism UI — drag & drop PDF, aut
 - **Smart Chunking** — Recursive text splitter (1000 chars / 200 overlap) with page tracking
 - **Local Vector Store** — FAISS `IndexFlatL2` + `chunks.json` (no ChromaDB needed)
 - **Embeddings** — `sentence-transformers/all-MiniLM-L6-v2` (384-dim, fast & free)
-- **LLM** — Google Gemini 2.0 Flash (`gemini-2.0-flash`) — free tier 60 RPM
+- **LLM** — Google Gemini 2.0 Flash (`gemini-2.0-flash`) — free tier 60 RPM  [[ 3.6 flash U can use ]]
 - **Grounded Answers** — Only answers from document context, with Page citations
 - **Beautiful UI** — Tailwind dashboard, glass panel, drag & drop, chat history
 - **No Rate Limit Hell** — Migrated from Mistral (1 RPM) to Gemini (60 RPM)
@@ -51,8 +51,10 @@ pdf-ai/
 │   ├── faiss_index.bin      # generated (gitignored)
 │   └── chunks.json          # generated (gitignored)
 ├── frontend/
-│   └── index.html           # RAG Dashboard UI (Tailwind)
+│   └── app.js
+└── index.html           # RAG Dashboard UI (Tailwind)  
 └── README.md
+ 
 ```
 
 ---
@@ -62,7 +64,7 @@ pdf-ai/
 ### 1. Clone & Venv
 
 ```bash
-git clone https://github.com/yourusername/pdf-ai.git
+git clone My repo...🍂
 cd pdf-ai/backend
 
 python -m venv .venv
@@ -115,6 +117,13 @@ Test:
 - http://localhost:8000/docs  (Swagger)
 - http://localhost:8000/status
 
+ <img width="1920" height="1080" alt="Screenshot (100)" src="https://github.com/user-attachments/assets/2ac67665-ef13-43b3-a874-3d04bfbd2387" />
+
+
+ 
+<img width="1920" height="1080" alt="Screenshot (99)" src="https://github.com/user-attachments/assets/0c8775fa-d836-40d5-95ed-16975ab3e13c" />
+
+
 ### 5. Run Frontend
 
 Just open `frontend/index.html` with VS Code **Live Server** or:
@@ -124,53 +133,6 @@ cd frontend
 python -m http.server 5500
 # open http://localhost:5500
 ```
-
----
-
-## 🔌 API Endpoints
-
-### `POST /upload-pdf`
-Upload PDF, build FAISS index.
-
-**curl:**
-```bash
-curl -X POST http://localhost:8000/upload-pdf -F "file=@learning_sql.pdf"
-```
-
-**Response:**
-```json
-{
-  "filename": "learning_sql.pdf",
-  "chunks_indexed": 897,
-  "size": 4523123,
-  "message": "PDF indexed successfully"
-}
-```
-
-### `POST /ask`
-RAG Q&A.
-
-**Body:**
-```json
-{
-  "question": "What is SQL?",
-  "history": []
-}
-```
-
-**Response:**
-```json
-{
-  "answer": "SQL is Structured Query Language... [Page 2]",
-  "sources": [
-    {"page": 2, "snippet": "SQL is..."},
-    {"page": 1, "snippet": "..."}
-  ]
-}
-```
-
-### `GET /status`
-Check if FAISS index loaded.
 
 ---
 
